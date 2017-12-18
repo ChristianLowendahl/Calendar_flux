@@ -1,0 +1,16 @@
+<h3>Skapa händelse</h3>
+
+<mat-form-field>
+  <input matInput [(ngModel)]="data.start" placeholder="Start">
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput [(ngModel)]="data.end" placeholder="Slut">
+</mat-form-field>
+
+<mat-form-field>
+  <input matInput [(ngModel)]="data.title" placeholder="Titel">
+</mat-form-field>
+
+<button mat-raised-button color="primary" [mat-dialog-close]="true"> Spara </button>
+<button mat-raised-button color="warn" mat-dialog-close> Avbryt </button>
