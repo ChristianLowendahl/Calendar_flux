@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
   onEventSelect(start, end) {
     this.event = new Event('Ny händelse', start, end);
     const dialogRef = this.matDialog.open(EventDialogComponent, {
-      width: '300px',
+      width: '250px',
       data: this.event
     });
     dialogRef.afterClosed().subscribe(result => {
