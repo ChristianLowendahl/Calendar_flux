@@ -12,7 +12,7 @@ import { EventDialogComponent } from './event-dialog/event-dialog.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  
+
   @ViewChild('myCalendar') myCalendar: CalendarComponent;
   calendarOptions: Object = {
     header: {
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
   onEventSelect(start, end) {
     this.event = new Event('Ny händelse', start, end);
     const dialogRef = this.matDialog.open(EventDialogComponent, {
-      width: '250px',
+      width: '300px',
       data: this.event
     });
     dialogRef.afterClosed().subscribe(result => {
