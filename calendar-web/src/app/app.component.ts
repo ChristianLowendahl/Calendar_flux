@@ -12,7 +12,7 @@ import { EventDialogComponent } from './event-dialog/event-dialog.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  
   @ViewChild('myCalendar') myCalendar: CalendarComponent;
   calendarOptions: Object = {
     header: {
