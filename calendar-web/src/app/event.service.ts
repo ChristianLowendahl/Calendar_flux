@@ -7,6 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { Event } from './event';
 import {forEach} from '@angular/router/src/utils/collection';
 import {ReplaySubject} from 'rxjs/ReplaySubject';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class EventService {
@@ -68,7 +69,7 @@ export class EventService {
     }];
   eventSubject = new ReplaySubject<Event>();
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
   getEvents(): Event[] {
     return this.events;
@@ -84,6 +85,10 @@ export class EventService {
     return this.eventSubject;
   }
 
+  serverGetEvents(): Observable<Event[]> {
+    return this.httpClient.get<Event[]>('http://localhost:8080/events/');
+  }
+
   loadEvents() {
     const events: Event[] = this.getEvents();
     for (const event of events) {
@@ -93,6 +98,12 @@ export class EventService {
 
   addEvent(event: Event) {
     this.eventSubject.next(event);
+  }
+
+  serverAddEvent(event: Event): Promise<Event> {
+    console.log('serverAddEvent');
+    console.log(event);
+    return this.httpClient.post<Event>('http://localhost:8080/events/', event).toPromise();
   }
 
 }

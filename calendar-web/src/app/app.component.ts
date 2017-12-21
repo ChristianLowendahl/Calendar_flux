@@ -49,17 +49,18 @@ export class AppComponent implements OnInit {
   }
 
   onInitialized() {
+    /*
     this.eventService.asyncGetEvents().subscribe(event => {
       this.renderEvent(event);
+    });
+    */
+    this.eventService.serverGetEvents().subscribe(events => {
+      this.renderEvents(events);
     });
   }
 
   renderEvents(events: Event[]) {
     this.myCalendar.fullCalendar('renderEvents', events);
-  }
-
-  getEvents() {
-    return this.eventService.getEvents();
   }
 
   onEventSelect(start, end) {
@@ -69,9 +70,11 @@ export class AppComponent implements OnInit {
       data: this.event
     });
     dialogRef.afterClosed().subscribe(result => {
+      console.log('onEventSelect:');
       console.log(this.event);
       if (result) {
-        this.eventService.addEvent(this.event);
+        // this.eventService.addEvent(this.event);
+        this.eventService.serverAddEvent(this.event).then(createdEvent => this.renderEvent(createdEvent));
       }
     });
   }
