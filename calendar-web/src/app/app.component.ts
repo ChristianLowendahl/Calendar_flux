@@ -15,18 +15,18 @@ export class AppComponent implements OnInit {
 
   @ViewChild('myCalendar') myCalendar: CalendarComponent;
   calendarOptions: Object = {
+
     header: {
       left: 'prev,next today',
       center: 'title',
       right: 'month,agendaWeek,agendaDay'
     },
+    height: 'parent',
+    fixedWeekCount : false,
+    locale: 'sv',
     slotLabelFormat: 'HH:mm',
     timeFormat: 'HH:mm',
-    height: 'parent',
-    locale: 'sv',
-    fixedWeekCount : false,
-    defaultDate: '2017-09-12',
-    editable: true,
+    allDayText: 'Heldag',
     buttonText: {
       today:    'idag',
       month:    'månad',
@@ -34,10 +34,17 @@ export class AppComponent implements OnInit {
       day:      'dag',
       list:     'lista'
     },
+    views: {
+      week: {
+        columnFormat: 'ddd D/M'
+      }
+    },
     selectable: true,
     select: (start, end) => this.onEventSelect(start, end),
+    editable: true,
     eventLimit: true, // allow "more" link when too many events
     // events: this.getEvents()
+    defaultDate: '2017-09-12',
   };
 
   private event: Event;
@@ -82,4 +89,5 @@ export class AppComponent implements OnInit {
   renderEvent(event: Event) {
     this.myCalendar.fullCalendar('renderEvent', event);
   }
+
 }
