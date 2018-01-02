@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FakeRepository {
+public class FakeRepository implements CalendarRepository {
 
     private List<CalendarEvent> calendarEvents;
 
@@ -14,10 +14,12 @@ public class FakeRepository {
         this.calendarEvents = makeCalendarEvents();
     }
 
+    @Override
     public Flux<CalendarEvent> getCalendarEvents() {
         return Flux.fromIterable(calendarEvents);
     }
 
+    @Override
     public Mono<CalendarEvent> addEvent(CalendarEvent event) {
         calendarEvents.add(event);
         return Mono.just(event);
