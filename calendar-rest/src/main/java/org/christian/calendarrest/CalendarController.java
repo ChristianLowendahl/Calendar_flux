@@ -12,6 +12,11 @@ import java.util.List;
 public class CalendarController {
 
     private FakeRepository fakeRepository = new FakeRepository();
+    private CalendarRepository calendarRepository;
+
+    public CalendarController(CalendarRepository calendarRepository) {
+        this.calendarRepository = calendarRepository;
+    }
 
     @GetMapping("/events")
     public Flux<CalendarEvent> getCalendarEvents() {
@@ -22,7 +27,7 @@ public class CalendarController {
     public Mono<CalendarEvent> addEvent(@RequestBody CalendarEvent event) {
         System.out.println("postmapping addEvent");
         System.out.println(event.getTitle());
-        return fakeRepository.addEvent(event);
+        return calendarRepository.addEvent(event);
     }
 
 }

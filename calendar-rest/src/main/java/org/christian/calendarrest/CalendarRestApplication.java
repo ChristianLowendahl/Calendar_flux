@@ -3,6 +3,7 @@ package org.christian.calendarrest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.redis.connection.ReactiveNumberCommands;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
@@ -23,18 +24,24 @@ public class CalendarRestApplication {
     }
 
     @Bean
-    ReactiveRedisTemplate<String, CalendarEvent> reactiveRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
+    ReactiveRedisTemplate<String, String> reactiveRedisTemplate(ReactiveRedisConnectionFactory connectionFactory) {
         Jackson2JsonRedisSerializer jacksonSerializer = new Jackson2JsonRedisSerializer(CalendarEvent.class);
-        RedisSerializationContext <String, CalendarEvent> serializationContext = RedisSerializationContext
+        /* RedisSerializationContext <String, CalendarEvent> serializationContext = RedisSerializationContext
                 .newSerializationContext(new StringRedisSerializer())
                 .value(jacksonSerializer)
                 .build();
-        return new ReactiveRedisTemplate<String, CalendarEvent>(connectionFactory, serializationContext);
+                */
+        return new ReactiveRedisTemplate<String, String>(connectionFactory, RedisSerializationContext.string());
     }
 
     @Bean
-    CalendarRepository calendarRepository(ReactiveRedisTemplate template) {
-	    return new RedisCalendarRepository(template);
+    ReactiveNumberCommands reactiveNumberCommands(ReactiveRedisConnectionFactory connectionFactory) {
+	    return connectionFactory.getReactiveConnection().numberCommands();
+    }
+
+    @Bean
+    CalendarRepository calendarRepository(ReactiveRedisTemplate<String, String> template, ReactiveNumberCommands reactiveNumberCommands) {
+	    return new RedisCalendarRepository(template, reactiveNumberCommands);
     }
 
 }
