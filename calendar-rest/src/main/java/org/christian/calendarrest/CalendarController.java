@@ -20,7 +20,7 @@ public class CalendarController {
 
     @GetMapping("/events")
     public Flux<CalendarEvent> getCalendarEvents() {
-        return fakeRepository.getCalendarEvents();
+        return calendarRepository.getCalendarEvents();
     }
 
     @PostMapping("/events")
